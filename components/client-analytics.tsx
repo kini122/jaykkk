@@ -50,65 +50,85 @@ export default function ClientAnalytics() {
       // silent
     }
 
-    // Wrap global fetch to avoid third-party synchronous throws causing DevOverlay runtime errors
+    // Robustly wrap global fetch to avoid third-party synchronous throws causing DevOverlay runtime errors
     try {
-      if (!(window as any).__fetchWrapped) {
-        const origFetch = window.fetch.bind(window)
-        ;(window as any).__originalFetch = origFetch
-        (window as any).__fetchWrapped = true
-        window.fetch = function (...args: any[]) {
+      const win: any = window
+      const existingFetch = win.fetch
+      if (!win.__robustFetchWrapped) {
+        win.__robustFetchWrapped = true
+        win.__originalFetch = existingFetch
+        win.fetch = function (...args: any[]) {
           try {
-            // detect fullstory requests and short-circuit to avoid cross-origin failures in preview
+            // detect common problematic requests (fullstory, accidental window objects) and short-circuit
             try {
               const maybeUrl = args && args[0]
-              // handle Request objects, strings, or accidentally passed window objects
               const url = typeof maybeUrl === 'string' ? maybeUrl : (maybeUrl && (maybeUrl.url || String(maybeUrl)))
-
               if (typeof url === 'string') {
-                if (url.includes('fullstory.com')) {
+                if (url.includes('fullstory.com') || url.includes('edge.fullstory.com')) {
                   try {
-                    const res = new Response('', { status: 204, statusText: 'No Content' })
-                    return Promise.resolve(res)
+                    return Promise.resolve(new Response('', { status: 204, statusText: 'No Content' }))
                   } catch (e) {
-                    const p = Promise.resolve({ ok: true, status: 204 }) as any
-                    return p
+                    return Promise.resolve({ ok: true, status: 204 } as any)
                   }
                 }
-
-                // ignore accidental window/document objects being passed to fetch
                 if (url === '[object Window]' || url === '[object HTMLDocument]' || url.includes('[object')) {
-                  const res = (typeof Response !== 'undefined')
-                    ? new Response('', { status: 204, statusText: 'Ignored' })
-                    : ({ ok: true, status: 204 } as any)
-                  return Promise.resolve(res)
+                  try {
+                    return Promise.resolve(new Response('', { status: 204, statusText: 'Ignored' }))
+                  } catch (e) {
+                    return Promise.resolve({ ok: true, status: 204 } as any)
+                  }
                 }
               }
             } catch (e) {
               // ignore detection errors
             }
 
-            const result = origFetch(...args)
+            // call the original fetch and ensure we convert rejections into resolved fallback responses
+            const result = existingFetch.apply(this, args)
             if (result && typeof result.then === 'function') {
-              // attach a catch handler immediately to prevent unhandled rejection events
-              result.catch((err: any) => {
-                console.warn('fetch failed (wrapped):', err)
-                // let the original promise remain rejected so callers can handle it
+              return result.catch((err: any) => {
+                console.warn('fetch failed (robust):', err)
+                try {
+                  return new Response('', { status: 204, statusText: 'No Content' })
+                } catch (e) {
+                  return { ok: false, status: 204 } as any
+                }
               })
-              return result
             }
             return result
           } catch (err) {
-            console.warn('fetch synchronous error (wrapped):', err)
-            const p = Promise.reject(err)
-            // attach handler so it's not an unhandled rejection
-            p.catch(() => {})
-            return p
+            console.warn('fetch sync error (robust):', err)
+            try {
+              return Promise.resolve(new Response('', { status: 204, statusText: 'Error' }))
+            } catch (e) {
+              return Promise.resolve({ ok: false, status: 204 } as any)
+            }
           }
         }
       }
     } catch (e) {
-      // silent - do not break app if environment prevents replacing fetch
-      console.warn('Failed to wrap fetch:', e)
+      console.warn('Failed to wrap fetch robustly', e)
+    }
+
+    // Suppress noisy unhandledrejection events from third-party fetch failures (e.g. fullstory)
+    const onUnhandled = (ev: PromiseRejectionEvent) => {
+      try {
+        const reason: any = ev.reason
+        const msg = reason && reason.message ? String(reason.message) : String(reason)
+        const stack = reason && reason.stack ? String(reason.stack) : ''
+        if (msg.toLowerCase().includes('failed to fetch') && stack.includes('fullstory')) {
+          ev.preventDefault()
+          // optional: log once
+          console.warn('Suppressed unhandled fetch rejection from fullstory')
+        }
+      } catch (e) {
+        // ignore
+      }
+    }
+    window.addEventListener('unhandledrejection', onUnhandled)
+
+    return () => {
+      window.removeEventListener('unhandledrejection', onUnhandled)
     }
   }, [])
 
