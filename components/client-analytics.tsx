@@ -61,16 +61,26 @@ export default function ClientAnalytics() {
             // detect fullstory requests and short-circuit to avoid cross-origin failures in preview
             try {
               const maybeUrl = args && args[0]
-              const url = typeof maybeUrl === 'string' ? maybeUrl : (maybeUrl && maybeUrl.url)
-              if (typeof url === 'string' && url.includes('fullstory.com')) {
-                // create an empty successful response
-                try {
-                  const res = new Response('', { status: 204, statusText: 'No Content' })
+              // handle Request objects, strings, or accidentally passed window objects
+              const url = typeof maybeUrl === 'string' ? maybeUrl : (maybeUrl && (maybeUrl.url || String(maybeUrl)))
+
+              if (typeof url === 'string') {
+                if (url.includes('fullstory.com')) {
+                  try {
+                    const res = new Response('', { status: 204, statusText: 'No Content' })
+                    return Promise.resolve(res)
+                  } catch (e) {
+                    const p = Promise.resolve({ ok: true, status: 204 }) as any
+                    return p
+                  }
+                }
+
+                // ignore accidental window/document objects being passed to fetch
+                if (url === '[object Window]' || url === '[object HTMLDocument]' || url.includes('[object')) {
+                  const res = (typeof Response !== 'undefined')
+                    ? new Response('', { status: 204, statusText: 'Ignored' })
+                    : ({ ok: true, status: 204 } as any)
                   return Promise.resolve(res)
-                } catch (e) {
-                  // If Response constructor not available, return a resolved promise
-                  const p = Promise.resolve({ ok: true, status: 204 }) as any
-                  return p
                 }
               }
             } catch (e) {
