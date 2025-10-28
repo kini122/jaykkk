@@ -4,6 +4,7 @@ import { GeistSans } from "geist/font/sans"
 import { Playfair_Display } from "next/font/google"
 import "./globals.css"
 import { Suspense } from "react"
+import Script from 'next/script'
 import ClientAnalytics from "@/components/client-analytics"
 import PagePadding from "@/components/page-padding"
 
