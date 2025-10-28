@@ -118,7 +118,7 @@ export function Hero() {
                 src={s.src}
                 alt={s.alt}
                 loading="lazy"
-                className={`absolute inset-0 h-full w-full object-cover object-center transition-opacity duration-700 ease-in-out ${visibleClass}`}
+                className={`hero-single-img absolute inset-0 h-full w-full object-cover object-center transition-opacity duration-700 ease-in-out ${visibleClass}`}
               />
             )
           })}
