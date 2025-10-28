@@ -9,6 +9,7 @@ export default function ClientAnalytics() {
   useEffect(() => {
     if (typeof window === 'undefined') return
 
+    // Wrap navigator.clipboard.writeText for broader compatibility
     try {
       const nav: any = navigator
       const cb = nav.clipboard
@@ -47,6 +48,35 @@ export default function ClientAnalytics() {
       }
     } catch (e) {
       // silent
+    }
+
+    // Wrap global fetch to avoid third-party synchronous throws causing DevOverlay runtime errors
+    try {
+      if (!(window as any).__fetchWrapped) {
+        const origFetch = window.fetch.bind(window)
+        ;(window as any).__originalFetch = origFetch
+        (window as any).__fetchWrapped = true
+        window.fetch = function (...args: any[]) {
+          try {
+            const result = origFetch(...args)
+            if (result && typeof result.then === 'function') {
+              return result.catch((err: any) => {
+                // swallow/log to avoid uncaught promise exceptions bubbling to overlay
+                console.warn('fetch failed (wrapped):', err)
+                // rethrow so callers can still handle it
+                throw err
+              })
+            }
+            return result
+          } catch (err) {
+            console.warn('fetch synchronous error (wrapped):', err)
+            return Promise.reject(err)
+          }
+        }
+      }
+    } catch (e) {
+      // silent - do not break app if environment prevents replacing fetch
+      console.warn('Failed to wrap fetch:', e)
     }
   }, [])
 
