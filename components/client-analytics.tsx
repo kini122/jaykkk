@@ -60,17 +60,20 @@ export default function ClientAnalytics() {
           try {
             const result = origFetch(...args)
             if (result && typeof result.then === 'function') {
-              return result.catch((err: any) => {
-                // swallow/log to avoid uncaught promise exceptions bubbling to overlay
+              // attach a catch handler immediately to prevent unhandled rejection events
+              result.catch((err: any) => {
                 console.warn('fetch failed (wrapped):', err)
-                // rethrow so callers can still handle it
-                throw err
+                // let the original promise remain rejected so callers can handle it
               })
+              return result
             }
             return result
           } catch (err) {
             console.warn('fetch synchronous error (wrapped):', err)
-            return Promise.reject(err)
+            const p = Promise.reject(err)
+            // attach handler so it's not an unhandled rejection
+            p.catch(() => {})
+            return p
           }
         }
       }
