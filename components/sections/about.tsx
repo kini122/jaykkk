@@ -13,7 +13,7 @@ export function About() {
           />
         </div>
 
-        <div className="about-copy order-2">
+        <div className="about-copy order-2 flex flex-col justify-center">
           <blockquote className="italic text-xl md:text-2xl leading-tight text-foreground mb-6">
             “Each new day, each new experience inspires me.”
           </blockquote>
