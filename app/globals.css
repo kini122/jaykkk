@@ -146,3 +146,37 @@
     object-fit: cover;
   }
 }
+
+/* Hero responsive aspect ratio: preserve desktop ratio (900px height at ~1280px width => 70.3125%) */
+.hero-aspect {
+  position: relative;
+  width: 100%;
+  max-width: 100%;
+  overflow: hidden;
+}
+.hero-aspect::before {
+  content: "";
+  display: block;
+  /* Desktop ratio derived from lg height (900) and common max container (1280) */
+  padding-top: 70.3125%; /* (900 / 1280) * 100 */
+}
+.hero-inner {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* Ensure pair slides stack on small screens and don't overflow horizontally */
+@media (max-width: 767px) {
+  .hero-inner img {
+    width: 100%;
+    height: 50%;
+    object-fit: cover;
+  }
+}
+@media (min-width: 768px) {
+  .hero-inner img {
+    height: 100%;
+  }
+}
