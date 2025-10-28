@@ -13,12 +13,12 @@ export function About() {
           />
         </div>
 
-        <div className="about-copy order-2 flex flex-col justify-center">
-          <blockquote className="italic text-xl md:text-2xl leading-tight text-foreground mb-6">
+        <div className="about-copy order-2 flex flex-col justify-center pl-[23px] mt-[95px] mb-[11px]">
+          <blockquote className="italic text-[24px] leading-[30px] font-normal mb-[24px] text-foreground">
             “Each new day, each new experience inspires me.”
           </blockquote>
 
-          <div className="about-text">
+          <div className="about-text text-[18px] leading-[29px] font-normal">
             <p>
               Art is a conversation for Jay Karun. The canvas is where his mind makes its most eloquent remarks. His
               observations on the canvas are a window to his forthright and thoughtful mind, reflecting his profound
