@@ -125,20 +125,20 @@ export function Hero() {
 
           {/* overlay text removed per DOM diff */}
 
-          {/* bottom roles strip */}
-          <div className="absolute inset-x-0 bottom-0 z-20 bg-foreground/80 text-background">
-            <div className="mx-auto max-w-7xl px-6">
-              <ul className="flex flex-wrap items-center gap-x-6 gap-y-2 py-2 text-xs md:text-sm">
-                <li>Creative Director</li>
-                <li>Graphic Designer</li>
-                <li>Story Teller</li>
-                <li>Poet</li>
-                <li>Lyricist</li>
-                <li>Photographer</li>
-                <li>Tablist</li>
-              </ul>
-            </div>
-          </div>
+        </div>
+      </div>
+      {/* bottom roles strip moved below hero to avoid overlap */}
+      <div className="w-full bg-foreground/80 text-background">
+        <div className="mx-auto max-w-7xl px-6">
+          <ul className="flex flex-wrap items-center gap-x-6 gap-y-2 py-2 text-xs md:text-sm">
+            <li>Creative Director</li>
+            <li>Graphic Designer</li>
+            <li>Story Teller</li>
+            <li>Poet</li>
+            <li>Lyricist</li>
+            <li>Photographer</li>
+            <li>Tablist</li>
+          </ul>
         </div>
       </div>
     </section>
