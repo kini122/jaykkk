@@ -94,18 +94,18 @@ export function Hero() {
                   key={`slide-${i}`}
                   className={`absolute inset-0 h-full w-full transition-opacity duration-700 ease-in-out ${visibleClass}`}
                 >
-                  <div className="flex h-full w-full flex-col md:flex-row">
+                  <div className="flex h-full w-full flex-row">
                     <img
                       src={s.left.src}
                       alt={s.left.alt}
                       loading="lazy"
-                      className="md:w-1/2 w-full md:h-full h-1/2 object-cover object-center"
+                      className="w-1/2 h-full object-cover object-center"
                     />
                     <img
                       src={s.right.src}
                       alt={s.right.alt}
                       loading="lazy"
-                      className="md:w-1/2 w-full md:h-full h-1/2 object-cover object-center"
+                      className="w-1/2 h-full object-cover object-center"
                     />
                   </div>
                 </div>
