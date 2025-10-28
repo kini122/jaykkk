@@ -83,62 +83,63 @@ export function Hero() {
 
   return (
     <section id="home" className="relative scroll-mt-24 md:scroll-mt-28 max-w-full overflow-x-hidden">
-      <div className="relative h-[480px] md:h-[720px] lg:h-[900px] w-full max-w-full overflow-hidden">
-        {/* slides stacked */}
-        {slides.map((s, i) => {
-          const visibleClass = i === index ? "opacity-100" : "opacity-0 pointer-events-none"
-          if (s.type === "pair") {
-            return (
-              <div
-                key={`slide-${i}`}
-                className={`absolute inset-0 h-full w-full transition-opacity duration-700 ease-in-out ${visibleClass}`}
-              >
-                <div className="flex h-full w-full">
-                  <img
-                    src={s.left.src}
-                    alt={s.left.alt}
-                    loading="lazy"
-                    className="w-1/2 h-full object-cover object-center"
-                  />
-                  <img
-                    src={s.right.src}
-                    alt={s.right.alt}
-                    loading="lazy"
-                    className="w-1/2 h-full object-cover object-center"
-                  />
+      <div className="hero-aspect w-full max-w-full">
+        <div className="hero-inner">
+          {/* slides stacked */}
+          {slides.map((s, i) => {
+            const visibleClass = i === index ? "opacity-100" : "opacity-0 pointer-events-none"
+            if (s.type === "pair") {
+              return (
+                <div
+                  key={`slide-${i}`}
+                  className={`absolute inset-0 h-full w-full transition-opacity duration-700 ease-in-out ${visibleClass}`}
+                >
+                  <div className="flex h-full w-full flex-col md:flex-row">
+                    <img
+                      src={s.left.src}
+                      alt={s.left.alt}
+                      loading="lazy"
+                      className="md:w-1/2 w-full md:h-full h-1/2 object-cover object-center"
+                    />
+                    <img
+                      src={s.right.src}
+                      alt={s.right.alt}
+                      loading="lazy"
+                      className="md:w-1/2 w-full md:h-full h-1/2 object-cover object-center"
+                    />
+                  </div>
                 </div>
-              </div>
+              )
+            }
+
+            return (
+              <img
+                key={`slide-${i}`}
+                src={s.src}
+                alt={s.alt}
+                loading="lazy"
+                className={`absolute inset-0 h-full w-full object-cover object-center transition-opacity duration-700 ease-in-out ${visibleClass}`}
+              />
             )
-          }
+          })}
 
-          return (
-            <img
-              key={`slide-${i}`}
-              src={s.src}
-              alt={s.alt}
-              loading="lazy"
-              className={`absolute inset-0 h-full w-full object-cover object-center transition-opacity duration-700 ease-in-out ${visibleClass}`}
-            />
-          )
-        })}
+          {/* overlay text removed per DOM diff */}
 
-        {/* overlay text removed per DOM diff */}
-
-        {/* bottom roles strip */}
-        <div className="absolute inset-x-0 bottom-0 z-20 bg-foreground/80 text-background">
-          <div className="mx-auto max-w-7xl px-6">
-            <ul className="flex flex-wrap items-center gap-x-6 gap-y-2 py-2 text-xs md:text-sm">
-              <li>Creative Director</li>
-              <li>Graphic Designer</li>
-              <li>Story Teller</li>
-              <li>Poet</li>
-              <li>Lyricist</li>
-              <li>Photographer</li>
-              <li>Tablist</li>
-            </ul>
+          {/* bottom roles strip */}
+          <div className="absolute inset-x-0 bottom-0 z-20 bg-foreground/80 text-background">
+            <div className="mx-auto max-w-7xl px-6">
+              <ul className="flex flex-wrap items-center gap-x-6 gap-y-2 py-2 text-xs md:text-sm">
+                <li>Creative Director</li>
+                <li>Graphic Designer</li>
+                <li>Story Teller</li>
+                <li>Poet</li>
+                <li>Lyricist</li>
+                <li>Photographer</li>
+                <li>Tablist</li>
+              </ul>
+            </div>
           </div>
         </div>
-
       </div>
     </section>
   )
