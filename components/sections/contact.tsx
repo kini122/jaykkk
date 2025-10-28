@@ -76,6 +76,7 @@ export function Contact() {
         setStatus({ ok: false, message: '❌ Request timed out. Please try again.' })
       } else if (err && (err as any).name === 'FetchError') {
         const ferr = err as any
+        console.error('FetchError details:', ferr.details)
         setStatus({ ok: false, message: `❌ Failed to send message. ${ferr.message}` })
       } else {
         setStatus({ ok: false, message: '❌ Failed to send message. Network error.' })
