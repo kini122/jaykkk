@@ -82,8 +82,8 @@ export function Hero() {
   }
 
   return (
-    <section id="home" className="relative scroll-mt-24 md:scroll-mt-28">
-      <div className="relative h-[480px] md:h-[720px] lg:h-[900px] overflow-hidden">
+    <section id="home" className="relative scroll-mt-24 md:scroll-mt-28 max-w-full overflow-x-hidden">
+      <div className="relative h-[480px] md:h-[720px] lg:h-[900px] w-full max-w-full overflow-hidden">
         {/* slides stacked */}
         {slides.map((s, i) => {
           const visibleClass = i === index ? "opacity-100" : "opacity-0 pointer-events-none"
@@ -98,15 +98,13 @@ export function Hero() {
                     src={s.left.src}
                     alt={s.left.alt}
                     loading="lazy"
-                    className="w-1/2 h-full object-cover"
-                    style={{ objectPosition: "center" }}
+                    className="w-1/2 h-full object-cover object-center"
                   />
                   <img
                     src={s.right.src}
                     alt={s.right.alt}
                     loading="lazy"
-                    className="w-1/2 h-full object-cover"
-                    style={{ objectPosition: "center" }}
+                    className="w-1/2 h-full object-cover object-center"
                   />
                 </div>
               </div>
@@ -119,8 +117,7 @@ export function Hero() {
               src={s.src}
               alt={s.alt}
               loading="lazy"
-              className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-700 ease-in-out ${visibleClass}`}
-              style={{ objectPosition: "center" }}
+              className={`absolute inset-0 h-full w-full object-cover object-center transition-opacity duration-700 ease-in-out ${visibleClass}`}
             />
           )
         })}
