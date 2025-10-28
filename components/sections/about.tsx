@@ -4,7 +4,8 @@ export function About() {
   return (
     <section id="about" className="about-section py-12 md:py-16">
       <div className="about-inner gill-sans">
-        <div className="order-1 flex items-start justify-start">
+        <div className="about-media order-1 flex flex-col items-start justify-start">
+          <h2 className="about-title text-left">About</h2>
           <img
             src="https://cdn.builder.io/api/v1/image/assets%2Fc42a4f5004514145a01d1b1dcdf5f9d1%2Fc3675c801faf4bcb92424a7e8529583b?format=webp&width=1200"
             alt="Jay Karun portrait"
@@ -12,8 +13,7 @@ export function About() {
           />
         </div>
 
-        <div className="order-2">
-          <h2 className="about-title">About</h2>
+        <div className="about-copy order-2">
           <blockquote className="italic text-xl md:text-2xl leading-tight text-foreground mb-6">
             “Each new day, each new experience inspires me.”
           </blockquote>
