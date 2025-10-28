@@ -194,3 +194,25 @@
   }
 }
 /* Single-image slides that are absolutely positioned continue to use object-cover to fill the container */
+
+/* Gill Sans font family utility for About page text */
+.gill-sans {
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+/* About section layout utilities to match provided screenshot */
+.about-section {
+  @apply section section-muted;
+}
+.about-inner {
+  @apply mx-auto max-w-6xl px-6 grid grid-cols-1 md:grid-cols-2 gap-8 items-start;
+}
+.about-title {
+  @apply text-6xl md:text-7xl font-light text-muted-foreground mb-4;
+}
+.about-image {
+  @apply w-full rounded-md object-cover bg-muted;
+}
+.about-text {
+  @apply text-base md:text-lg leading-relaxed text-pretty;
+}
