@@ -7,7 +7,7 @@ export function Hero() {
   const slides = [
     {
       type: "single",
-      src: "https://cdn.builder.io/api/v1/image/assets%2Fc42a4f5004514145a01d1b1dcdf5f9d1%2F74cb5161c68142e78f0b2ea684cb22ee?format=webp&width=800",
+      src: "https://cdn.builder.io/api/v1/image/assets%2Fc42a4f5004514145a01d1b1dcdf5f9d1%2F1d96d8497b3e482b8c5413e0995097c3?format=webp&width=800",
       alt: "JayKarun Artist logo",
     },
     {
