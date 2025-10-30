@@ -52,8 +52,8 @@ export function SiteHeader() {
         aria-label="Primary"
         className={
           isMenuOpen
-            ? "block border-t border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80 md:hidden"
-            : "hidden border-t border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80 md:hidden"
+            ? "block border-t border-border bg-background md:hidden"
+            : "hidden border-t border-border bg-background md:hidden"
         }
       >
         <ul className="flex flex-col gap-3 px-6 py-4">
