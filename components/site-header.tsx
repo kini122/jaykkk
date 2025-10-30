@@ -19,7 +19,7 @@ export function SiteHeader() {
   const handleNavigate = () => setIsMenuOpen(false)
 
   return (
-    <header className="fixed inset-x-0 top-0 z-50 w-full border-b border-border bg-background/80 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <header className="fixed inset-x-0 top-0 z-50 w-full border-b border-border bg-background md:bg-background/80 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-6 h-16 md:h-16 lg:h-20">
         <Link href="#home" className="text-sm font-medium tracking-tight md:text-base" onClick={handleNavigate}>
           <div className="site-brand text-lg md:text-xl lg:text-2xl">jaykarun.com</div>
