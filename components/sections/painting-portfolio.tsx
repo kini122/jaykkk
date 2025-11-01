@@ -77,7 +77,7 @@ export function PaintingPortfolio() {
             {items.map((it, idx) => {
               const targetTitles = ["Loose Talk","He & She","Kite Flyers","Dogs Day","Transformation","Untitled"]
               return (
-              <article key={`${it.imageUrl ?? it.title}-${idx}`} className="group p-4 rounded-none cursor-pointer" onClick={() => openAt(idx)} style={targetTitles.includes(it.title) ? { background: 'oklab(0.97 0 0 / 0.8)' } : undefined}>
+              <article key={`${it.imageUrl ?? it.title}-${idx}`} className="group p-4 rounded-none cursor-pointer" onClick={() => openAt(idx)} style={targetTitles.includes(it.title) ? { background: 'oklab(0.97 0 0 / 0.4)' } : undefined}>
                 <div className="square-holder w-full bg-muted rounded-none">
                   <div className="square-inner">
                     <img

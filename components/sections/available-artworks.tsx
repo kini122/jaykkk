@@ -88,7 +88,7 @@ export function AvailableArtworks() {
             {artworks.map((a, i) => {
               const targetTitles = ["Loose Talk","He & She","Kite Flyers","Dogs Day","Transformation","Untitled"]
               return (
-              <article key={`${a.title}-${a.size}`} className="group p-4 cursor-pointer" onClick={() => openAt(i)} style={targetTitles.includes(a.title) ? { background: 'oklab(0.97 0 0 / 0.8)' } : undefined}>
+              <article key={`${a.title}-${a.size}`} className="group p-4 cursor-pointer" onClick={() => openAt(i)} style={targetTitles.includes(a.title) ? { background: 'oklab(0.97 0 0 / 0.4)' } : undefined}>
                 <div className="square-holder w-full bg-muted">
                   <div className="square-inner">
                     <img
