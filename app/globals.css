@@ -173,6 +173,10 @@
   .pair-active-desktop {
     margin-top: var(--header-h);
   }
+  /* ensure hero is offset below navbar on desktop to avoid overlap */
+  .hero-offset-desktop {
+    margin-top: var(--header-h);
+  }
 }
 
 /* Ensure pair slide images remain side-by-side on all screen sizes and don't overflow horizontally */
