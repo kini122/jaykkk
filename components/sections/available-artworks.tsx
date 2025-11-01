@@ -85,8 +85,10 @@ export function AvailableArtworks() {
         <h2 className="font-serif text-3xl md:text-4xl tracking-tight text-center">Available Artworks</h2>
         <div className="mt-8 flex justify-center">
           <div className="grid w-full max-w-full grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            {artworks.map((a, i) => (
-              <article key={`${a.title}-${a.size}`} className="group bg-muted/80 p-4 cursor-pointer" onClick={() => openAt(i)}>
+            {artworks.map((a, i) => {
+              const targetTitles = ["Loose Talk","He & She","Kite Flyers","Dogs Day","Transformation","Untitled"]
+              return (
+              <article key={`${a.title}-${a.size}`} className="group p-4 cursor-pointer" onClick={() => openAt(i)} style={targetTitles.includes(a.title) ? { background: 'oklab(0.97 0 0 / 0.8)' } : undefined}>
                 <div className="square-holder w-full bg-muted">
                   <div className="square-inner">
                     <img
@@ -104,7 +106,8 @@ export function AvailableArtworks() {
                   <p className="text-sm text-muted-foreground">Size: {a.size}</p>
                 </div>
               </article>
-            ))}
+              )
+            })}
           </div>
         </div>
       </div>
