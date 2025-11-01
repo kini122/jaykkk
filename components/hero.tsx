@@ -3,46 +3,12 @@
 import { useEffect, useRef, useState } from "react"
 
 export function Hero() {
-  // slides: first is the existing hero image, then a dual-image slide, followed by examples from available artworks + portfolio
+  // slides: single-image slideshow using user-provided uploads
   const slides = [
-    {
-      type: "single",
-      src: "https://cdn.builder.io/api/v1/image/assets%2Fc42a4f5004514145a01d1b1dcdf5f9d1%2F0b92058276ae4cb785a98b502de68c7f",
-      alt: "JayKarun Artist logo",
-    },
-    {
-      type: "pair",
-      left: {
-        src: "https://cdn.builder.io/api/v1/image/assets%2F9e5464ed21f1499c91aab477b8b54d6e%2Fff0b78b389b14489aabbbd73e5901810?format=webp&width=1920&q=100",
-        alt: "Artwork left",
-      },
-      right: {
-        src: "https://cdn.builder.io/api/v1/image/assets%2F9e5464ed21f1499c91aab477b8b54d6e%2F1c88167d5b49426c88ffd1bdffde3734?format=webp&width=1920&q=100",
-        alt: "Artwork right",
-      }
-    },
-    {
-      type: "pair",
-      left: {
-        src: "https://cdn.builder.io/api/v1/image/assets%2F9e5464ed21f1499c91aab477b8b54d6e%2Fae9bbbb6b1574ea18e5c9df35e78f227?format=webp&width=1920&q=100",
-        alt: "Loose Talk",
-      },
-      right: {
-        src: "https://cdn.builder.io/api/v1/image/assets%2F9e5464ed21f1499c91aab477b8b54d6e%2Fff0b78b389b14489aabbbd73e5901810?format=webp&width=1920&q=100",
-        alt: "Loose He & She",
-      }
-    },
-    {
-      type: "pair",
-      left: {
-        src: "https://cdn.builder.io/api/v1/image/assets%2F9e5464ed21f1499c91aab477b8b54d6e%2F1c88167d5b49426c88ffd1bdffde3734?format=webp&width=1920&q=100",
-        alt: "Gods own fruit",
-      },
-      right: {
-        src: "https://cdn.builder.io/api/v1/image/assets%2F9e5464ed21f1499c91aab477b8b54d6e%2Fafff93b0b2b14a788ba45eda9fd8e0bc?format=webp&width=1920&q=100",
-        alt: "A cat in my garden",
-      }
-    },
+    { type: "single", src: "https://cdn.builder.io/api/v1/image/assets%2Fc42a4f5004514145a01d1b1dcdf5f9d1%2F317b66d534e242e897933c4b2ac7dee5?format=webp&width=1920", alt: "Hero image 1" },
+    { type: "single", src: "https://cdn.builder.io/api/v1/image/assets%2Fc42a4f5004514145a01d1b1dcdf5f9d1%2F67dd430e7094453f801082669f422998?format=webp&width=1920", alt: "Hero image 2" },
+    { type: "single", src: "https://cdn.builder.io/api/v1/image/assets%2Fc42a4f5004514145a01d1b1dcdf5f9d1%2F3011b44a7c6d4487b52fc0efc43c975b?format=webp&width=1920", alt: "Hero image 3" },
+    { type: "single", src: "https://cdn.builder.io/api/v1/image/assets%2Fc42a4f5004514145a01d1b1dcdf5f9d1%2F4b02dbbe3a1b4c4ab7102518d7937f2c?format=webp&width=1920", alt: "Hero image 4" },
   ]
 
   const [index, setIndex] = useState(0)
