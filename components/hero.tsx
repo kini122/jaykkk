@@ -95,18 +95,26 @@ export function Hero() {
                   className={`absolute inset-0 h-full w-full transition-opacity duration-700 ease-in-out ${visibleClass}`}
                 >
                   <div className="flex h-full w-full flex-row">
-                    <img
-                      src={s.left.src}
-                      alt={s.left.alt}
-                      loading="lazy"
-                      className="hero-pair-img w-1/2 h-full object-cover object-center"
-                    />
-                    <img
-                      src={s.right.src}
-                      alt={s.right.alt}
-                      loading="lazy"
-                      className="hero-pair-img w-1/2 h-full object-cover object-center"
-                    />
+                    <div className="pair-square">
+                      <div className="pair-square-inner">
+                        <img
+                          src={s.left.src}
+                          alt={s.left.alt}
+                          loading="lazy"
+                          className="pair-img"
+                        />
+                      </div>
+                    </div>
+                    <div className="pair-square">
+                      <div className="pair-square-inner">
+                        <img
+                          src={s.right.src}
+                          alt={s.right.alt}
+                          loading="lazy"
+                          className="pair-img"
+                        />
+                      </div>
+                    </div>
                   </div>
                 </div>
               )
