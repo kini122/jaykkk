@@ -251,6 +251,16 @@
   font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
 
+/* Non-desktop: ensure slideshow sits below nav with zero padding */
+@media (max-width: 1023px) {
+  /* ensure header has declared height matching variable */
+  header { height: var(--header-h); }
+  /* push hero below header */
+  #home .hero-aspect { margin-top: var(--header-h) !important; }
+  /* remove any top padding from main */
+  main { padding-top: 0 !important; }
+}
+
 /* About section layout utilities to match provided screenshot */
 .about-section {
   @apply py-12 md:py-16 scroll-mt-24 md:scroll-mt-28 bg-muted/60;
