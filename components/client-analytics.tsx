@@ -64,6 +64,10 @@ export default function ClientAnalytics() {
               const maybeUrl = args && args[0]
               const url = typeof maybeUrl === 'string' ? maybeUrl : (maybeUrl && (maybeUrl.url || String(maybeUrl)))
               if (typeof url === 'string') {
+                // Allow Next dev overlay to fetch original stack frames without interference
+                if (url.includes('__nextjs_original-stack-frames')) {
+                  return existingFetch.apply(this, args)
+                }
                 if (url.includes('fullstory.com') || url.includes('edge.fullstory.com')) {
                   try {
                     return Promise.resolve(new Response('', { status: 204, statusText: 'No Content' }))
