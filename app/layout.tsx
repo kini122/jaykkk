@@ -44,7 +44,9 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       }catch(e){}
       try{
         var p=orig.apply(window,arguments);
-        if(p&&typeof p.then==='function') p.catch(function(e){console.warn('fetch failed (early wrapper):',e)});
+        if(p&&typeof p.then==='function') {
+          return p.catch(function(e){console.warn('fetch failed (early wrapper):',e); try{return new Response('',{status:204,statusText:'No Content'})}catch(e){return {ok:true,status:204}}});
+        }
         return p;
       }catch(e){var r=Promise.reject(e); r.catch(function(){}); return r}
     }
