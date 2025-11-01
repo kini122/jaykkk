@@ -85,7 +85,7 @@ export function Hero() {
 
   return (
     <section id="home" className="relative scroll-mt-24 md:scroll-mt-28 max-w-full overflow-x-hidden">
-      <div className="hero-aspect w-full max-w-full" style={isPairActive ? { marginTop: 'var(--header-h)' } : undefined}>
+      <div className={"hero-aspect w-full max-w-full" + (isPairActive ? " pair-active-desktop" : "")}>
         <div className="hero-inner">
           {/* slides stacked */}
           {slides.map((s, i) => {
