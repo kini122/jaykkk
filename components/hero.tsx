@@ -11,6 +11,28 @@ export function Hero() {
     { type: "single", src: "https://cdn.builder.io/api/v1/image/assets%2Fc42a4f5004514145a01d1b1dcdf5f9d1%2F4b02dbbe3a1b4c4ab7102518d7937f2c?format=webp&width=1920", alt: "Hero image 4" },
   ]
 
+  // dynamic sizing: keep intrinsic H:W for each image by measuring naturalHeight/naturalWidth
+  const [ratios, setRatios] = useState<number[]>(Array(slides.length).fill(undefined))
+  const [heroHeight, setHeroHeight] = useState<number | null>(null)
+
+  const updateHeroHeight = (idx: number) => {
+    const r = ratios[idx]
+    if (typeof r === 'number' && typeof window !== 'undefined') {
+      const w = window.innerWidth
+      setHeroHeight(Math.round(w * r))
+    } else {
+      setHeroHeight(null)
+    }
+  }
+
+  // update on active index or resize
+  useEffect(() => {
+    updateHeroHeight(index)
+    const onResize = () => updateHeroHeight(index)
+    window.addEventListener('resize', onResize)
+    return () => window.removeEventListener('resize', onResize)
+  }, [index, ratios])
+
   const [index, setIndex] = useState(0)
   const autoplayDelay = 5500 // ms
   const timeoutRef = useRef<number | null>(null)
