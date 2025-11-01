@@ -27,34 +27,6 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       {/* use sans for body, expose serif variable for headings */}
       <body className={`font-sans ${GeistSans.variable} ${playfair.variable} antialiased`}>
         <style>{` :root { --header-h: 4rem; } @media (min-width: 1024px){ :root { --header-h: 5rem; } } @media (min-width: 1024px){ #home .hero-aspect{ margin-top: var(--header-h) !important; } main{ padding-top: 0 !important; } } `}</style>
-        <Script id="fetch-protection" strategy="beforeInteractive">{`(function(){
-  try{
-    if(typeof window==='undefined')return;
-    if(window.__fetchPatchedByApp)return;
-    var orig=window.fetch;
-    if(!orig||typeof orig!=='function')return;
-    window.__fetchPatchedByApp=true;
-    window.fetch=function(){
-      try{
-        var a=arguments[0];
-        var url = (typeof a==='string')?a:(a&&a.url? a.url: String(a));
-        if(typeof url==='string'){
-          // allow next dev overlay to fetch original stack frames unmodified
-          if(url.indexOf('__nextjs_original-stack-frames')!==-1) return orig.apply(window, arguments);
-          if(url.indexOf('fullstory.com')!==-1) return Promise.resolve(new Response('',{status:204,statusText:'No Content'}));
-          if(url==='[object Window]'||url==='[object HTMLDocument]'||url.indexOf('[object')!==-1) return Promise.resolve(new Response('',{status:204,statusText:'Ignored'}));
-        }
-      }catch(e){}
-      try{
-        var p=orig.apply(window,arguments);
-        if(p&&typeof p.then==='function') {
-          return p.catch(function(e){console.warn('fetch failed (early wrapper):',e); try{return new Response('',{status:204,statusText:'No Content'})}catch(e){return {ok:true,status:204}}});
-        }
-        return p;
-      }catch(e){var r=Promise.reject(e); r.catch(function(){}); return r}
-    }
-  }catch(e){}
-})();`}</Script>
         <Suspense fallback={<div>Loading...</div>}>
           <PagePadding>{children}</PagePadding>
         </Suspense>
