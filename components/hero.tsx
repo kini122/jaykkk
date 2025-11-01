@@ -25,6 +25,10 @@ export function Hero() {
     }
   }
 
+  const [index, setIndex] = useState(0)
+  const autoplayDelay = 5500 // ms
+  const timeoutRef = useRef<number | null>(null)
+
   // update on active index or resize
   useEffect(() => {
     updateHeroHeight(index)
@@ -32,10 +36,6 @@ export function Hero() {
     window.addEventListener('resize', onResize)
     return () => window.removeEventListener('resize', onResize)
   }, [index, ratios])
-
-  const [index, setIndex] = useState(0)
-  const autoplayDelay = 5500 // ms
-  const timeoutRef = useRef<number | null>(null)
 
   useEffect(() => {
     // autoplay timer
