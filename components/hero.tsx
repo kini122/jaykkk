@@ -94,8 +94,7 @@ export function Hero() {
               return (
                 <div
                   key={`slide-${i}`}
-                  className={`absolute left-0 right-0 transition-opacity duration-700 ease-in-out ${visibleClass}`}
-                  style={{ top: "var(--header-h)", height: "calc(100% - var(--header-h))" }}
+                  className={`absolute inset-0 h-full w-full transition-opacity duration-700 ease-in-out ${visibleClass}` }
                 >
                   <div className="flex h-full w-full flex-row">
                     <div className="pair-square">
