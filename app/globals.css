@@ -201,6 +201,32 @@
     object-fit: cover;
   }
 }
+/* Square card holders used on Available Artworks and Painting Portfolio */
+.square-holder {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  background: var(--muted);
+}
+.square-holder::before {
+  content: "";
+  display: block;
+  padding-top: 100%; /* enforce 1:1 */
+}
+.square-inner {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.square-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
 /* Single-image slides that are absolutely positioned continue to use object-cover to fill the container */
 
 /* Gill Sans font family utility for About page text */
