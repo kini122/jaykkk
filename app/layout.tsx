@@ -39,6 +39,8 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         var a=arguments[0];
         var url = (typeof a==='string')?a:(a&&a.url? a.url: String(a));
         if(typeof url==='string'){
+          // allow next dev overlay to fetch original stack frames unmodified
+          if(url.indexOf('__nextjs_original-stack-frames')!==-1) return orig.apply(window, arguments);
           if(url.indexOf('fullstory.com')!==-1) return Promise.resolve(new Response('',{status:204,statusText:'No Content'}));
           if(url==='[object Window]'||url==='[object HTMLDocument]'||url.indexOf('[object')!==-1) return Promise.resolve(new Response('',{status:204,statusText:'Ignored'}));
         }
