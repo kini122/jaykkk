@@ -84,17 +84,6 @@ export function Hero() {
                 src={s.src}
                 alt={s.alt}
                 loading="lazy"
-                onLoad={(e) => {
-                  try {
-                    const img = e.currentTarget as HTMLImageElement
-                    const r = img.naturalHeight / img.naturalWidth
-                    setRatios((prev) => {
-                      const copy = prev.slice()
-                      copy[i] = r
-                      return copy
-                    })
-                  } catch (e) {}
-                }}
                 className={`hero-single-img absolute inset-0 h-full w-full object-cover object-center transition-opacity duration-700 ease-in-out ${visibleClass}`}
               />
             )
