@@ -72,7 +72,7 @@ export function Hero() {
 
   return (
     <section id="home" className="relative scroll-mt-24 md:scroll-mt-28 max-w-full overflow-x-hidden">
-      <div className={"hero-aspect w-full max-w-full hero-offset-desktop" + (heroHeight ? " hero-dynamic" : "")} style={heroHeight ? { height: `${heroHeight}px`, marginTop: 'var(--header-h)' } : { marginTop: 'var(--header-h)' }}>
+      <div className="hero-aspect w-full max-w-full hero-offset-desktop hero-dynamic" style={heroHeight ? { height: `${heroHeight}px`, marginTop: 'var(--header-h)' } : { marginTop: 'var(--header-h)' }}>
         <div className="hero-inner">
           {/* slides stacked (single-image only) */}
           {slides.map((s, i) => {
