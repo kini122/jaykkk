@@ -75,11 +75,17 @@ export function PaintingPortfolio() {
           <div className="grid w-full max-w-6xl grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
             {items.map((it, idx) => (
               <article key={`${it.imageUrl ?? it.title}-${idx}`} className="group bg-muted/80 p-4 rounded-none cursor-pointer" onClick={() => openAt(idx)}>
-                <img
-                  src={it.imageUrl}
-                  alt={it.alt}
-                  className="mobile-square-img w-full object-cover rounded-none bg-muted h-80 sm:h-80"
-                />
+                <div className="square-holder w-full bg-muted rounded-none">
+                  <div className="square-inner">
+                    <img
+                      src={it.imageUrl}
+                      alt={it.alt}
+                      width={800}
+                      height={800}
+                      className="square-img"
+                    />
+                  </div>
+                </div>
                 <div className="mt-4 text-left">
                   <h3 className="text-lg font-medium">{it.title}</h3>
                   <p className="text-sm text-muted-foreground mt-2">Medium: {it.medium}</p>
