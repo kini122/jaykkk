@@ -173,6 +173,14 @@
 /* ensure slideshow is always below navbar for all viewports */
 .hero-offset-desktop, .hero-aspect { margin-top: var(--header-h); }
 
+/* Desktop-specific: force hero below header and zero main padding */
+@media (min-width: 1024px) {
+  main { padding-top: 0 !important; }
+  header { height: var(--header-h); }
+  /* target the home hero specifically to ensure it sits below the fixed header */
+  #home .hero-aspect { margin-top: var(--header-h) !important; }
+}
+
 /* Desktop-only offset for pair slides to sit below fixed navbar */
 @media (min-width: 1024px) {
   .pair-active-desktop {
