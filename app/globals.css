@@ -170,6 +170,9 @@
   height: 100%;
 }
 
+/* ensure slideshow is always below navbar for all viewports */
+.hero-offset-desktop, .hero-aspect { margin-top: var(--header-h); }
+
 /* Desktop-only offset for pair slides to sit below fixed navbar */
 @media (min-width: 1024px) {
   .pair-active-desktop {
