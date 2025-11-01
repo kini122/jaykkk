@@ -74,8 +74,10 @@ export function PaintingPortfolio() {
         <h2 className="font-serif text-3xl md:text-4xl tracking-tight text-center">Painting Portfolio</h2>
         <div className="mt-8 flex justify-center">
           <div className="grid w-full max-w-6xl grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            {items.map((it, idx) => (
-              <article key={`${it.imageUrl ?? it.title}-${idx}`} className="group bg-muted/80 p-4 rounded-none cursor-pointer" onClick={() => openAt(idx)}>
+            {items.map((it, idx) => {
+              const targetTitles = ["Loose Talk","He & She","Kite Flyers","Dogs Day","Transformation","Untitled"]
+              return (
+              <article key={`${it.imageUrl ?? it.title}-${idx}`} className="group p-4 rounded-none cursor-pointer" onClick={() => openAt(idx)} style={targetTitles.includes(it.title) ? { background: 'oklab(0.97 0 0 / 0.8)' } : undefined}>
                 <div className="square-holder w-full bg-muted rounded-none">
                   <div className="square-inner">
                     <img
@@ -93,7 +95,8 @@ export function PaintingPortfolio() {
                   <p className="text-sm text-muted-foreground"><span className="font-semibold">Status:</span> <span className="text-red-600 font-semibold">{it.status.toUpperCase()}</span></p>
                 </div>
               </article>
-            ))}
+              )
+            })}
           </div>
         </div>
       </div>
