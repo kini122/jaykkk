@@ -51,42 +51,11 @@ export function Hero() {
 
   return (
     <section id="home" className="relative scroll-mt-24 md:scroll-mt-28 max-w-full overflow-x-hidden">
-      <div className={"hero-aspect w-full max-w-full" + (isPairActive ? " pair-active-desktop" : "")}>
+      <div className="hero-aspect w-full max-w-full hero-offset-desktop">
         <div className="hero-inner">
-          {/* slides stacked */}
+          {/* slides stacked (single-image only) */}
           {slides.map((s, i) => {
             const visibleClass = i === index ? "opacity-100" : "opacity-0 pointer-events-none"
-            if (s.type === "pair") {
-              return (
-                <div
-                  key={`slide-${i}`}
-                  className={`absolute inset-0 h-full w-full transition-opacity duration-700 ease-in-out ${visibleClass}` }
-                >
-                  <div className="flex h-full w-full flex-row">
-                    <div className="pair-square">
-                      <div className="pair-square-inner">
-                        <img
-                          src={s.left.src}
-                          alt={s.left.alt}
-                          loading="lazy"
-                          className="pair-img"
-                        />
-                      </div>
-                    </div>
-                    <div className="pair-square">
-                      <div className="pair-square-inner">
-                        <img
-                          src={s.right.src}
-                          alt={s.right.alt}
-                          loading="lazy"
-                          className="pair-img"
-                        />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              )
-            }
 
             return (
               <img
