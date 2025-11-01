@@ -26,6 +26,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     <html lang="en" suppressHydrationWarning>
       {/* use sans for body, expose serif variable for headings */}
       <body className={`font-sans ${GeistSans.variable} ${playfair.variable} antialiased`}>
+        <style>{` :root { --header-h: 4rem; } @media (min-width: 1024px){ :root { --header-h: 5rem; } } @media (min-width: 1024px){ #home .hero-aspect{ margin-top: var(--header-h) !important; } main{ padding-top: 0 !important; } } `}</style>
         <Script id="fetch-protection" strategy="beforeInteractive">{`(function(){
   try{
     if(typeof window==='undefined')return;
