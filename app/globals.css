@@ -153,6 +153,7 @@
   width: 100%;
   max-width: 100%;
   overflow: hidden;
+  background: var(--background);
 }
 .hero-aspect::before {
   content: "";
