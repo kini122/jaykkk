@@ -51,6 +51,7 @@ const items: Item[] = [
   { title: "First Fly", medium: "Acrylic on canvas", status: "Sold", alt: "First Fly", imageUrl: "https://cdn.builder.io/api/v1/image/assets%2F790f35fadef64566860a9626adb0c749%2F54c04b42e2fb46748d5c75f351219158?format=webp&width=800" },
   { title: "Erotic Nature", medium: "Acrylic on canvas", status: "Sold", alt: "Erotic Nature", imageUrl: "https://cdn.builder.io/api/v1/image/assets%2F790f35fadef64566860a9626adb0c749%2F67095d1ae89a4b6183d80bddedd7385b?format=webp&width=800" },
   { title: "Violinist", medium: "Acrylic on canvas", status: "Sold", alt: "Violinist", imageUrl: "https://cdn.builder.io/api/v1/image/assets%2F790f35fadef64566860a9626adb0c749%2Faf0adcbd60754b31ab7587d862f0b30b?format=webp&width=800" },
+  { title: "Erotic Nature", medium: "Acrylic on canvas", status: "Sold", alt: "Erotic Nature", imageUrl: "https://cdn.builder.io/api/v1/image/assets%2Fc42a4f5004514145a01d1b1dcdf5f9d1%2F5bbce932a7ca43508444827c85d00525?format=webp&width=800" },
 ]
 
 import { useState } from "react"
