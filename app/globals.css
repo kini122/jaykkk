@@ -161,6 +161,8 @@
   /* Desktop ratio derived from lg height (900) and common max container (1280) */
   padding-top: 70.3125%; /* (900 / 1280) * 100 */
 }
+.hero-aspect.hero-dynamic::before { display: none; }
+.hero-aspect.hero-dynamic { padding-top: 0; }
 .hero-inner {
   position: absolute;
   inset: 0;
