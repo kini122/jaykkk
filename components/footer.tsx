@@ -5,7 +5,7 @@ import { Instagram, Linkedin, Facebook } from "lucide-react"
 export function Footer() {
   const year = new Date().getFullYear()
   return (
-    <footer className="border-t border-border bg-background">
+    <footer className="bg-background">
       <div className="mx-auto max-w-7xl px-6 py-6 text-center text-sm text-muted-foreground">
         <div className="uppercase tracking-widest text-xs">© {year} jaykarun.com — ALL RIGHTS RESERVED</div>
         <div className="mt-2 text-xs">Web Design by <span className="font-semibold">Kozker Tech</span></div>
