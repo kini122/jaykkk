@@ -27,11 +27,11 @@ export function Newsletter() {
   return (
     <section id="newsletter" className="section bg-white" style={{ padding: '68px 0 11px' }}>
       <div className="mx-auto max-w-4xl px-6">
-        <h2 className="font-serif text-3xl md:text-4xl tracking-tight leading-relaxed md:leading-relaxed text-center">Sign up to my newsletter for exclusive updates, offers and invitations.</h2>
+        <h2 className="font-serif text-3xl md:text-4xl tracking-tight leading-relaxed md:leading-relaxed text-center" style={{ padding: '4px 0 17px' }}>Sign up to my newsletter for exclusive updates, <br />offers and invitations.</h2>
 
         {!submitted ? (
-          <form onSubmit={onSubmit} className="mt-4 flex justify-center">
-            <div className="w-full grid grid-cols-12 gap-4 items-center">
+          <form onSubmit={onSubmit} className="mt-4 flex justify-center" style={{ marginTop: '16px' }}>
+            <div className="w-full grid grid-cols-12" style={{ gap: '16px', alignItems: 'center', width: '100%' }}>
               <input
                 aria-label="First Name"
                 placeholder="First Name"
