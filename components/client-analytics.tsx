@@ -130,9 +130,9 @@ export default function ClientAnalytics() {
         const reason: any = ev.reason
         const msg = reason && reason.message ? String(reason.message) : String(reason)
         const stack = reason && reason.stack ? String(reason.stack) : ''
-        if (msg.toLowerCase().includes('failed to fetch') && stack.includes('fullstory')) {
+        const combined = (msg + ' ' + stack).toLowerCase()
+        if (combined.includes('failed to fetch') && (combined.includes('fullstory') || combined.includes('edge.fullstory') || combined.includes('fullstory.com') || combined.includes('edge.fullstory.com') )) {
           ev.preventDefault()
-          // optional: log once
           console.warn('Suppressed unhandled fetch rejection from fullstory')
         }
       } catch (e) {
@@ -141,8 +141,27 @@ export default function ClientAnalytics() {
     }
     window.addEventListener('unhandledrejection', onUnhandled)
 
+    // Also suppress certain global error events from FullStory fetch failures to avoid DevOverlay noise
+    const onErrorEvent = (ev: ErrorEvent) => {
+      try {
+        const msg = ev && ev.message ? String(ev.message) : ''
+        const filename = ev && (ev.filename || ev.filename === '') ? String((ev as any).filename || '') : ''
+        const combined = (msg + ' ' + filename).toLowerCase()
+        if (combined.includes('failed to fetch') && (combined.includes('fullstory') || combined.includes('edge.fullstory') || combined.includes('fullstory.com') || combined.includes('edge.fullstory.com'))) {
+          ev.preventDefault()
+          // stop propagation if available
+          try { ev.stopImmediatePropagation?.() } catch (e) { /* ignore */ }
+          console.warn('Suppressed error event from fullstory fetch')
+        }
+      } catch (e) {
+        // ignore
+      }
+    }
+    window.addEventListener('error', onErrorEvent)
+
     return () => {
       window.removeEventListener('unhandledrejection', onUnhandled)
+      window.removeEventListener('error', onErrorEvent)
     }
   }, [])
 
