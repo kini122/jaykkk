@@ -25,7 +25,7 @@ export function Newsletter() {
   }
 
   return (
-    <section id="newsletter" className="section section-muted">
+    <section id="newsletter" className="section bg-white py-8">
       <div className="mx-auto max-w-7xl px-6">
         <h2 className="font-serif text-3xl md:text-4xl tracking-tight text-center">Sign up to my newsletter for exclusive updates, offers and invitations.</h2>
 
