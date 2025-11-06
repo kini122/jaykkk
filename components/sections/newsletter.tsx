@@ -30,8 +30,8 @@ export function Newsletter() {
         <h2 className="font-serif text-3xl md:text-4xl tracking-tight text-center">Sign up to my newsletter for exclusive updates, offers and invitations.</h2>
 
         {!submitted ? (
-          <form onSubmit={onSubmit} className="mt-8 flex justify-center">
-            <div className="w-full max-w-6xl grid grid-cols-4 gap-0 items-center">
+          <form onSubmit={onSubmit} className="mt-4 flex justify-center">
+            <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-0 items-center">
               <input
                 aria-label="First Name"
                 placeholder="First Name"
