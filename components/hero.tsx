@@ -25,7 +25,7 @@ export function Hero() {
   }
 
   const [index, setIndex] = useState(0)
-  const autoplayDelay = 5500 // ms
+  const autoplayDelay = 2000 // ms
   const timeoutRef = useRef<number | null>(null)
 
   // compute on mount and on resize
