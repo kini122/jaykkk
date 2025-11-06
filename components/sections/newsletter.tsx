@@ -25,7 +25,7 @@ export function Newsletter() {
   }
 
   return (
-    <section id="newsletter" className="section bg-white py-8">
+    <section id="newsletter" className="section bg-white" style={{ padding: '68px 0 11px' }}>
       <div className="mx-auto max-w-4xl px-6">
         <h2 className="font-serif text-3xl md:text-4xl tracking-tight leading-relaxed md:leading-relaxed text-center">Sign up to my newsletter for exclusive updates, offers and invitations.</h2>
 
