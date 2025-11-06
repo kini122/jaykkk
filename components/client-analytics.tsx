@@ -66,7 +66,12 @@ export default function ClientAnalytics() {
               if (typeof url === 'string') {
                 // Allow Next dev overlay to fetch original stack frames without interference
                 if (url.includes('__nextjs_original-stack-frames')) {
-                  return existingFetch.apply(this, args)
+                  if (typeof existingFetch === 'function') return existingFetch.apply(this, args)
+                  try {
+                    return Promise.resolve(new Response('', { status: 204, statusText: 'No Content' }))
+                  } catch (e) {
+                    return Promise.resolve({ ok: true, status: 204 } as any)
+                  }
                 }
                 if (url.includes('fullstory.com') || url.includes('edge.fullstory.com')) {
                   try {
@@ -85,6 +90,15 @@ export default function ClientAnalytics() {
               }
             } catch (e) {
               // ignore detection errors
+            }
+
+            // If native fetch is not available, return a harmless resolved response
+            if (typeof existingFetch !== 'function') {
+              try {
+                return Promise.resolve(new Response('', { status: 204, statusText: 'No Fetch' }))
+              } catch (e) {
+                return Promise.resolve({ ok: true, status: 204 } as any)
+              }
             }
 
             // call the original fetch and ensure we convert rejections into resolved fallback responses
