@@ -37,25 +37,25 @@ export function Newsletter() {
                 placeholder="First Name"
                 value={firstName}
                 onChange={(e) => setFirstName(e.target.value)}
-                className="col-span-1 border border-border bg-card px-4 py-3 placeholder:text-muted-foreground text-foreground"
+                className="col-span-12 md:col-span-3 border border-border bg-card px-4 py-3 placeholder:text-muted-foreground text-foreground"
               />
               <input
                 aria-label="Last Name"
                 placeholder="Last Name"
                 value={lastName}
                 onChange={(e) => setLastName(e.target.value)}
-                className="col-span-1 border border-border bg-card px-4 py-3 placeholder:text-muted-foreground text-foreground"
+                className="col-span-12 md:col-span-3 border border-border bg-card px-4 py-3 placeholder:text-muted-foreground text-foreground"
               />
               <input
                 aria-label="Email Address"
                 placeholder="Email Address"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="col-span-1 border border-border bg-card px-4 py-3 placeholder:text-muted-foreground text-foreground"
+                className="col-span-12 md:col-span-4 border border-border bg-card px-4 py-3 placeholder:text-muted-foreground text-foreground"
               />
               <button
                 type="submit"
-                className="col-span-1 bg-foreground text-background px-6 py-3 font-semibold"
+                className="col-span-12 md:col-span-2 bg-foreground text-background px-6 py-3 font-semibold justify-self-end"
                 style={{ backgroundColor: 'black', color: 'white' }}
               >
                 Sign Up
