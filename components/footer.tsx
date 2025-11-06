@@ -5,21 +5,20 @@ import { Instagram, Linkedin, Facebook } from "lucide-react"
 export function Footer() {
   const year = new Date().getFullYear()
   return (
-    <footer className="border-t border-border bg-background">
-      <div className="mx-auto max-w-7xl px-6 py-8 flex flex-col md:flex-row items-center justify-between text-sm text-muted-foreground">
-        <div className="mb-3 md:mb-0">© {year} jaykarun — All rights reserved</div>
-        <div className="flex items-center gap-4">
-          <a href="#" aria-label="Instagram" className="flex items-center gap-2 hover:underline">
+    <footer className="bg-background">
+      <div className="mx-auto max-w-7xl px-6 text-center text-sm text-muted-foreground" style={{ margin: '12px auto 0', padding: '24px 24px 20px' }}>
+        <div className="uppercase tracking-widest text-xs">© {year} jaykarun.com — ALL RIGHTS RESERVED</div>
+        <div className="mt-2 text-xs">Web Design by <span className="font-semibold">Kozker Tech</span></div>
+
+        <div className="mt-4 flex items-center justify-center gap-4">
+          <a href="#" aria-label="Instagram" className="text-muted-foreground hover:text-foreground">
             <Instagram size={16} />
-            <span>Instagram</span>
           </a>
-          <a href="#" aria-label="LinkedIn" className="flex items-center gap-2 hover:underline">
-            <Linkedin size={16} />
-            <span>LinkedIn</span>
-          </a>
-          <a href="#" aria-label="Facebook" className="flex items-center gap-2 hover:underline">
+          <a href="#" aria-label="Facebook" className="text-muted-foreground hover:text-foreground">
             <Facebook size={16} />
-            <span>Facebook</span>
+          </a>
+          <a href="#" aria-label="LinkedIn" className="text-muted-foreground hover:text-foreground">
+            <Linkedin size={16} />
           </a>
         </div>
       </div>

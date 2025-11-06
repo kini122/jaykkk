@@ -54,6 +54,26 @@ export default function ClientAnalytics() {
     try {
       const win: any = window
       const existingFetch = win.fetch
+      const makeResponseLike = (body = '', opts: any = { status: 204, statusText: 'No Content' }) => {
+        try {
+          return new Response(body, opts)
+        } catch (e) {
+          return {
+            ok: opts.status >= 200 && opts.status < 300,
+            status: opts.status ?? 204,
+            statusText: opts.statusText ?? '',
+            text: async () => String(body),
+            json: async () => {
+              try {
+                return JSON.parse(String(body))
+              } catch (e) {
+                return {}
+              }
+            },
+          }
+        }
+      }
+
       if (!win.__robustFetchWrapped) {
         win.__robustFetchWrapped = true
         win.__originalFetch = existingFetch
@@ -66,25 +86,23 @@ export default function ClientAnalytics() {
               if (typeof url === 'string') {
                 // Allow Next dev overlay to fetch original stack frames without interference
                 if (url.includes('__nextjs_original-stack-frames')) {
-                  return existingFetch.apply(this, args)
+                  if (typeof existingFetch === 'function') return existingFetch.apply(this, args)
+                  return Promise.resolve(makeResponseLike('', { status: 204, statusText: 'No Content' }))
                 }
                 if (url.includes('fullstory.com') || url.includes('edge.fullstory.com')) {
-                  try {
-                    return Promise.resolve(new Response('', { status: 204, statusText: 'No Content' }))
-                  } catch (e) {
-                    return Promise.resolve({ ok: true, status: 204 } as any)
-                  }
+                  return Promise.resolve(makeResponseLike('', { status: 204, statusText: 'No Content' }))
                 }
                 if (url === '[object Window]' || url === '[object HTMLDocument]' || url.includes('[object')) {
-                  try {
-                    return Promise.resolve(new Response('', { status: 204, statusText: 'Ignored' }))
-                  } catch (e) {
-                    return Promise.resolve({ ok: true, status: 204 } as any)
-                  }
+                  return Promise.resolve(makeResponseLike('', { status: 204, statusText: 'Ignored' }))
                 }
               }
             } catch (e) {
               // ignore detection errors
+            }
+
+            // If native fetch is not available, return a harmless resolved response
+            if (typeof existingFetch !== 'function') {
+              return Promise.resolve(makeResponseLike('', { status: 204, statusText: 'No Fetch' }))
             }
 
             // call the original fetch and ensure we convert rejections into resolved fallback responses
@@ -92,21 +110,13 @@ export default function ClientAnalytics() {
             if (result && typeof result.then === 'function') {
               return result.catch((err: any) => {
                 console.warn('fetch failed (robust):', err)
-                try {
-                  return new Response('', { status: 204, statusText: 'No Content' })
-                } catch (e) {
-                  return { ok: false, status: 204 } as any
-                }
+                return makeResponseLike('', { status: 204, statusText: 'No Content' })
               })
             }
             return result
           } catch (err) {
             console.warn('fetch sync error (robust):', err)
-            try {
-              return Promise.resolve(new Response('', { status: 204, statusText: 'Error' }))
-            } catch (e) {
-              return Promise.resolve({ ok: false, status: 204 } as any)
-            }
+            return Promise.resolve(makeResponseLike('', { status: 204, statusText: 'Error' }))
           }
         }
       }
@@ -120,9 +130,9 @@ export default function ClientAnalytics() {
         const reason: any = ev.reason
         const msg = reason && reason.message ? String(reason.message) : String(reason)
         const stack = reason && reason.stack ? String(reason.stack) : ''
-        if (msg.toLowerCase().includes('failed to fetch') && stack.includes('fullstory')) {
+        const combined = (msg + ' ' + stack).toLowerCase()
+        if (combined.includes('failed to fetch') && (combined.includes('fullstory') || combined.includes('edge.fullstory') || combined.includes('fullstory.com') || combined.includes('edge.fullstory.com') )) {
           ev.preventDefault()
-          // optional: log once
           console.warn('Suppressed unhandled fetch rejection from fullstory')
         }
       } catch (e) {
@@ -131,8 +141,27 @@ export default function ClientAnalytics() {
     }
     window.addEventListener('unhandledrejection', onUnhandled)
 
+    // Also suppress certain global error events from FullStory fetch failures to avoid DevOverlay noise
+    const onErrorEvent = (ev: ErrorEvent) => {
+      try {
+        const msg = ev && ev.message ? String(ev.message) : ''
+        const filename = ev && (ev.filename || ev.filename === '') ? String((ev as any).filename || '') : ''
+        const combined = (msg + ' ' + filename).toLowerCase()
+        if (combined.includes('failed to fetch') && (combined.includes('fullstory') || combined.includes('edge.fullstory') || combined.includes('fullstory.com') || combined.includes('edge.fullstory.com'))) {
+          ev.preventDefault()
+          // stop propagation if available
+          try { ev.stopImmediatePropagation?.() } catch (e) { /* ignore */ }
+          console.warn('Suppressed error event from fullstory fetch')
+        }
+      } catch (e) {
+        // ignore
+      }
+    }
+    window.addEventListener('error', onErrorEvent)
+
     return () => {
       window.removeEventListener('unhandledrejection', onUnhandled)
+      window.removeEventListener('error', onErrorEvent)
     }
   }, [])
 
