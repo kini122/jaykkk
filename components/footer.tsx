@@ -6,7 +6,7 @@ export function Footer() {
   const year = new Date().getFullYear()
   return (
     <footer className="bg-background">
-      <div className="mx-auto max-w-7xl px-6 py-6 text-center text-sm text-muted-foreground">
+      <div className="mx-auto max-w-7xl px-6 text-center text-sm text-muted-foreground" style={{ margin: '12px auto 0', padding: '24px 24px 20px' }}>
         <div className="uppercase tracking-widest text-xs">© {year} jaykarun.com — ALL RIGHTS RESERVED</div>
         <div className="mt-2 text-xs">Web Design by <span className="font-semibold">Kozker Tech</span></div>
 
