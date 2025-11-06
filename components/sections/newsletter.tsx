@@ -44,7 +44,7 @@ export function Newsletter() {
                 placeholder="Last Name"
                 value={lastName}
                 onChange={(e) => setLastName(e.target.value)}
-                className="col-span-1 border-t border-b border-border bg-card px-4 py-3 placeholder:text-muted-foreground text-foreground"
+                className="col-span-1 border border-border bg-card px-4 py-3 placeholder:text-muted-foreground text-foreground"
               />
               <input
                 aria-label="Email Address"
@@ -56,6 +56,7 @@ export function Newsletter() {
               <button
                 type="submit"
                 className="col-span-1 bg-foreground text-background px-6 py-3 font-semibold"
+                style={{ backgroundColor: 'black', color: 'white' }}
               >
                 Sign Up
               </button>
