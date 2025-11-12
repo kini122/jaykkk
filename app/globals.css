@@ -153,6 +153,7 @@
   width: 100%;
   max-width: 100%;
   overflow: hidden;
+  background: var(--background);
 }
 .hero-aspect::before {
   content: "";
@@ -160,11 +161,35 @@
   /* Desktop ratio derived from lg height (900) and common max container (1280) */
   padding-top: 70.3125%; /* (900 / 1280) * 100 */
 }
+.hero-aspect.hero-dynamic::before { display: none; }
+.hero-aspect.hero-dynamic { padding-top: 0; }
 .hero-inner {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
+}
+
+/* ensure slideshow is always below navbar for all viewports */
+.hero-offset-desktop, .hero-aspect { margin-top: var(--header-h); }
+
+/* Desktop-specific: force hero below header and zero main padding */
+@media (min-width: 1024px) {
+  main { padding-top: 0 !important; }
+  header { height: var(--header-h); }
+  /* target the home hero specifically to ensure it sits below the fixed header */
+  #home .hero-aspect { margin-top: var(--header-h) !important; }
+}
+
+/* Desktop-only offset for pair slides to sit below fixed navbar */
+@media (min-width: 1024px) {
+  .pair-active-desktop {
+    margin-top: var(--header-h);
+  }
+  /* ensure hero is offset below navbar on desktop to avoid overlap */
+  .hero-offset-desktop {
+    margin-top: var(--header-h);
+  }
 }
 
 /* Ensure pair slide images remain side-by-side on all screen sizes and don't overflow horizontally */
@@ -193,11 +218,47 @@
     object-fit: cover;
   }
 }
+/* Square card holders used on Available Artworks and Painting Portfolio */
+.square-holder {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  background: var(--muted);
+}
+.square-holder::before {
+  content: "";
+  display: block;
+  padding-top: 100%; /* enforce 1:1 */
+}
+.square-inner {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.square-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
 /* Single-image slides that are absolutely positioned continue to use object-cover to fill the container */
 
 /* Gill Sans font family utility for About page text */
 .gill-sans {
   font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+/* Non-desktop: ensure slideshow sits below nav with zero padding */
+@media (max-width: 1023px) {
+  /* ensure header has declared height matching variable */
+  header { height: var(--header-h); }
+  /* push hero below header */
+  #home .hero-aspect { margin-top: var(--header-h) !important; }
+  /* remove any top padding from main */
+  main { padding-top: 0 !important; }
 }
 
 /* About section layout utilities to match provided screenshot */

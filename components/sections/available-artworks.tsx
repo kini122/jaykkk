@@ -85,20 +85,29 @@ export function AvailableArtworks() {
         <h2 className="font-serif text-3xl md:text-4xl tracking-tight text-center">Available Artworks</h2>
         <div className="mt-8 flex justify-center">
           <div className="grid w-full max-w-full grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            {artworks.map((a, i) => (
-              <article key={`${a.title}-${a.size}`} className="group bg-muted/80 p-4 cursor-pointer" onClick={() => openAt(i)}>
-                <img
-                  src={a.imageUrl ?? '/placeholder.svg'}
-                  alt={a.alt}
-                  className="mobile-square-img w-full object-cover bg-muted h-80 sm:h-80"
-                />
+            {artworks.map((a, i) => {
+              const targetTitles = ["Loose Talk","He & She","Kite Flyers","Dogs Day","Transformation","Untitled"]
+              return (
+              <article key={`${a.title}-${a.size}`} className="group p-4 cursor-pointer" onClick={() => openAt(i)} style={targetTitles.includes(a.title) ? { background: 'oklab(0.97 0 0 / 0.4)' } : undefined}>
+                <div className="square-holder w-full bg-muted">
+                  <div className="square-inner">
+                    <img
+                      src={a.imageUrl ?? '/placeholder.svg'}
+                      alt={a.alt}
+                      width={800}
+                      height={800}
+                      className="square-img"
+                    />
+                  </div>
+                </div>
                 <div className="mt-4 text-left">
                   <h3 className="text-lg font-medium">{a.title}</h3>
                   <p className="text-sm text-muted-foreground mt-2">Medium: {a.medium}</p>
                   <p className="text-sm text-muted-foreground">Size: {a.size}</p>
                 </div>
               </article>
-            ))}
+              )
+            })}
           </div>
         </div>
       </div>

@@ -3,51 +3,38 @@
 import { useEffect, useRef, useState } from "react"
 
 export function Hero() {
-  // slides: first is the existing hero image, then a dual-image slide, followed by examples from available artworks + portfolio
+  // slides: single-image slideshow using user-provided uploads
   const slides = [
-    {
-      type: "single",
-      src: "https://cdn.builder.io/api/v1/image/assets%2Fc42a4f5004514145a01d1b1dcdf5f9d1%2F13ca7b06291147e2a41630876e7b52a0",
-      alt: "JayKarun Artist logo",
-    },
-    {
-      type: "pair",
-      left: {
-        src: "https://cdn.builder.io/api/v1/image/assets%2F9e5464ed21f1499c91aab477b8b54d6e%2Fff0b78b389b14489aabbbd73e5901810?format=webp&width=1920&q=100",
-        alt: "Artwork left",
-      },
-      right: {
-        src: "https://cdn.builder.io/api/v1/image/assets%2F9e5464ed21f1499c91aab477b8b54d6e%2F1c88167d5b49426c88ffd1bdffde3734?format=webp&width=1920&q=100",
-        alt: "Artwork right",
-      }
-    },
-    {
-      type: "pair",
-      left: {
-        src: "https://cdn.builder.io/api/v1/image/assets%2F9e5464ed21f1499c91aab477b8b54d6e%2Fae9bbbb6b1574ea18e5c9df35e78f227?format=webp&width=1920&q=100",
-        alt: "Loose Talk",
-      },
-      right: {
-        src: "https://cdn.builder.io/api/v1/image/assets%2F9e5464ed21f1499c91aab477b8b54d6e%2Fff0b78b389b14489aabbbd73e5901810?format=webp&width=1920&q=100",
-        alt: "Loose He & She",
-      }
-    },
-    {
-      type: "pair",
-      left: {
-        src: "https://cdn.builder.io/api/v1/image/assets%2F9e5464ed21f1499c91aab477b8b54d6e%2F1c88167d5b49426c88ffd1bdffde3734?format=webp&width=1920&q=100",
-        alt: "Gods own fruit",
-      },
-      right: {
-        src: "https://cdn.builder.io/api/v1/image/assets%2F9e5464ed21f1499c91aab477b8b54d6e%2Fafff93b0b2b14a788ba45eda9fd8e0bc?format=webp&width=1920&q=100",
-        alt: "A cat in my garden",
-      }
-    },
+    { type: "single", src: "https://cdn.builder.io/api/v1/image/assets%2Fc42a4f5004514145a01d1b1dcdf5f9d1%2F317b66d534e242e897933c4b2ac7dee5?format=webp&width=1920", alt: "Hero image 1" },
+    { type: "single", src: "https://cdn.builder.io/api/v1/image/assets%2Fc42a4f5004514145a01d1b1dcdf5f9d1%2F67dd430e7094453f801082669f422998?format=webp&width=1920", alt: "Hero image 2" },
+    { type: "single", src: "https://cdn.builder.io/api/v1/image/assets%2Fc42a4f5004514145a01d1b1dcdf5f9d1%2F3011b44a7c6d4487b52fc0efc43c975b?format=webp&width=1920", alt: "Hero image 3" },
+    { type: "single", src: "https://cdn.builder.io/api/v1/image/assets%2Fc42a4f5004514145a01d1b1dcdf5f9d1%2F4b02dbbe3a1b4c4ab7102518d7937f2c?format=webp&width=1920", alt: "Hero image 4" },
   ]
+
+  // fixed original image dimensions: W: 3840, H: 1860 => ratio H/W
+  const ORIGINAL_W = 3840
+  const ORIGINAL_H = 1860
+  const RATIO = ORIGINAL_H / ORIGINAL_W // 0.484375
+
+  const [heroHeight, setHeroHeight] = useState<number | null>(null)
+
+  const computeHeroHeight = () => {
+    if (typeof window === 'undefined') return
+    const w = window.innerWidth
+    setHeroHeight(Math.round(w * RATIO))
+  }
 
   const [index, setIndex] = useState(0)
   const autoplayDelay = 5500 // ms
   const timeoutRef = useRef<number | null>(null)
+
+  // compute on mount and on resize
+  useEffect(() => {
+    computeHeroHeight()
+    const onResize = () => computeHeroHeight()
+    window.addEventListener('resize', onResize)
+    return () => window.removeEventListener('resize', onResize)
+  }, [])
 
   useEffect(() => {
     // autoplay timer
@@ -81,36 +68,15 @@ export function Hero() {
     setIndex(i)
   }
 
+  const isPairActive = slides[index] && slides[index].type === 'pair'
+
   return (
     <section id="home" className="relative scroll-mt-24 md:scroll-mt-28 max-w-full overflow-x-hidden">
-      <div className="hero-aspect w-full max-w-full">
+      <div className="hero-aspect w-full max-w-full hero-offset-desktop hero-dynamic" style={heroHeight ? { height: `${heroHeight}px`, marginTop: 'var(--header-h)' } : { marginTop: 'var(--header-h)' }}>
         <div className="hero-inner">
-          {/* slides stacked */}
+          {/* slides stacked (single-image only) */}
           {slides.map((s, i) => {
             const visibleClass = i === index ? "opacity-100" : "opacity-0 pointer-events-none"
-            if (s.type === "pair") {
-              return (
-                <div
-                  key={`slide-${i}`}
-                  className={`absolute inset-0 h-full w-full transition-opacity duration-700 ease-in-out ${visibleClass}`}
-                >
-                  <div className="flex h-full w-full flex-row">
-                    <img
-                      src={s.left.src}
-                      alt={s.left.alt}
-                      loading="lazy"
-                      className="hero-pair-img w-1/2 h-full object-cover object-center"
-                    />
-                    <img
-                      src={s.right.src}
-                      alt={s.right.alt}
-                      loading="lazy"
-                      className="hero-pair-img w-1/2 h-full object-cover object-center"
-                    />
-                  </div>
-                </div>
-              )
-            }
 
             return (
               <img

@@ -51,6 +51,7 @@ const items: Item[] = [
   { title: "First Fly", medium: "Acrylic on canvas", status: "Sold", alt: "First Fly", imageUrl: "https://cdn.builder.io/api/v1/image/assets%2F790f35fadef64566860a9626adb0c749%2F54c04b42e2fb46748d5c75f351219158?format=webp&width=800" },
   { title: "Erotic Nature", medium: "Acrylic on canvas", status: "Sold", alt: "Erotic Nature", imageUrl: "https://cdn.builder.io/api/v1/image/assets%2F790f35fadef64566860a9626adb0c749%2F67095d1ae89a4b6183d80bddedd7385b?format=webp&width=800" },
   { title: "Violinist", medium: "Acrylic on canvas", status: "Sold", alt: "Violinist", imageUrl: "https://cdn.builder.io/api/v1/image/assets%2F790f35fadef64566860a9626adb0c749%2Faf0adcbd60754b31ab7587d862f0b30b?format=webp&width=800" },
+  { title: "Erotic Nature", medium: "Acrylic on canvas", status: "Sold", alt: "Erotic Nature", imageUrl: "https://cdn.builder.io/api/v1/image/assets%2Fc42a4f5004514145a01d1b1dcdf5f9d1%2F5bbce932a7ca43508444827c85d00525?format=webp&width=800" },
 ]
 
 import { useState } from "react"
@@ -73,20 +74,29 @@ export function PaintingPortfolio() {
         <h2 className="font-serif text-3xl md:text-4xl tracking-tight text-center">Painting Portfolio</h2>
         <div className="mt-8 flex justify-center">
           <div className="grid w-full max-w-6xl grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            {items.map((it, idx) => (
-              <article key={`${it.imageUrl ?? it.title}-${idx}`} className="group bg-muted/80 p-4 rounded-none cursor-pointer" onClick={() => openAt(idx)}>
-                <img
-                  src={it.imageUrl}
-                  alt={it.alt}
-                  className="mobile-square-img w-full object-cover rounded-none bg-muted h-80 sm:h-80"
-                />
+            {items.map((it, idx) => {
+              const targetTitles = ["Loose Talk","He & She","Kite Flyers","Dogs Day","Transformation","Untitled"]
+              return (
+              <article key={`${it.imageUrl ?? it.title}-${idx}`} className="group p-4 rounded-none cursor-pointer" onClick={() => openAt(idx)} style={targetTitles.includes(it.title) ? { background: 'oklab(0.97 0 0 / 0.4)' } : undefined}>
+                <div className="square-holder w-full bg-muted rounded-none">
+                  <div className="square-inner">
+                    <img
+                      src={it.imageUrl}
+                      alt={it.alt}
+                      width={800}
+                      height={800}
+                      className="square-img"
+                    />
+                  </div>
+                </div>
                 <div className="mt-4 text-left">
                   <h3 className="text-lg font-medium">{it.title}</h3>
                   <p className="text-sm text-muted-foreground mt-2">Medium: {it.medium}</p>
                   <p className="text-sm text-muted-foreground"><span className="font-semibold">Status:</span> <span className="text-red-600 font-semibold">{it.status.toUpperCase()}</span></p>
                 </div>
               </article>
-            ))}
+              )
+            })}
           </div>
         </div>
       </div>
