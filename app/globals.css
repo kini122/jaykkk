@@ -146,3 +146,73 @@
     object-fit: cover;
   }
 }
+
+/* Hero responsive aspect ratio: preserve desktop ratio (900px height at ~1280px width => 70.3125%) */
+.hero-aspect {
+  position: relative;
+  width: 100%;
+  max-width: 100%;
+  overflow: hidden;
+}
+.hero-aspect::before {
+  content: "";
+  display: block;
+  /* Desktop ratio derived from lg height (900) and common max container (1280) */
+  padding-top: 70.3125%; /* (900 / 1280) * 100 */
+}
+.hero-inner {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* Ensure pair slide images remain side-by-side on all screen sizes and don't overflow horizontally */
+@media (max-width: 767px) {
+  .hero-inner img.hero-pair-img {
+    width: 50%;
+    height: 100%;
+    object-fit: cover;
+    min-width: 0;
+  }
+  .hero-inner img.hero-single-img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover;
+  }
+}
+@media (min-width: 768px) {
+  .hero-inner img.hero-pair-img {
+    width: 50%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .hero-inner img.hero-single-img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover;
+  }
+}
+/* Single-image slides that are absolutely positioned continue to use object-cover to fill the container */
+
+/* Gill Sans font family utility for About page text */
+.gill-sans {
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+/* About section layout utilities to match provided screenshot */
+.about-section {
+  @apply py-12 md:py-16 scroll-mt-24 md:scroll-mt-28 bg-muted/60;
+}
+.about-inner {
+  @apply mx-auto max-w-6xl px-6 grid grid-cols-1 md:grid-cols-2 gap-[10px] items-start;
+}
+.about-title {
+  @apply text-6xl md:text-7xl font-light text-muted-foreground mb-4;
+}
+.about-image {
+  @apply w-full object-cover bg-muted;
+}
+.about-text {
+  @apply text-base md:text-lg leading-relaxed text-pretty;
+}

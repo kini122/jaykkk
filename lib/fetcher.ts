@@ -28,23 +28,33 @@ export async function fetchWithTimeout(input: RequestInfo, init?: FetchOptions):
 
   // clone options for each attempt
   const attempt = async (attemptNumber: number): Promise<Response> => {
-    const controller = new AbortController()
-    const signal = controller.signal
-    if (init && 'signal' in init && (init as any).signal) {
+    // Ensure AbortController available
+    const Controller = (typeof AbortController !== 'undefined') ? AbortController : undefined
+    const controller = Controller ? new Controller() : null
+    const signal = controller ? controller.signal : undefined
+
+    if (init && 'signal' in init && (init as any).signal && controller) {
       // If a signal was provided by caller, propagate abort
       (init as any).signal.addEventListener('abort', () => controller.abort())
     }
 
-    const timeoutId = window ? window.setTimeout(() => controller.abort(), timeout) : 0
+    const timeoutId = (typeof window !== 'undefined' && typeof window.setTimeout === 'function')
+      ? window.setTimeout(() => controller && controller.abort(), timeout)
+      : 0
 
     try {
-      const response = await fetch(input, { ...(init || {}), signal })
-      if (!response.ok) {
-        const text = await safeReadResponse(response)
-        throw new FetchError(`HTTP error: ${response.status}`, response, text)
+      if (typeof fetch !== 'function' && typeof globalThis.fetch !== 'function') {
+        throw new FetchError('Fetch API is not available in this environment', undefined, null)
+      }
+      const fn = (typeof fetch === 'function') ? fetch : (globalThis.fetch as any)
+      const response = await fn(input, { ...(init || {}), signal })
+      if (!response || !response.ok) {
+        const text = response ? await safeReadResponse(response) : null
+        const status = response ? response.status : 0
+        throw new FetchError(`HTTP error: ${status}`, response, text)
       }
       return response
-    } catch (err) {
+    } catch (err: any) {
       // If aborted due to timeout, treat accordingly
       const isAbort = err && (err.name === 'AbortError' || err.message === 'The user aborted a request.')
       if (attemptNumber < retries && !isAbort) {
@@ -53,9 +63,11 @@ export async function fetchWithTimeout(input: RequestInfo, init?: FetchOptions):
         return attempt(attemptNumber + 1)
       }
       if (err instanceof FetchError) throw err
-      throw new FetchError(err?.message ?? 'Network error', undefined, err)
+      // Provide clearer network error messages
+      const message = err && err.message ? err.message : String(err)
+      throw new FetchError(message.includes('Failed to fetch') ? 'Network request failed (check CORS or connectivity)' : message, undefined, err)
     } finally {
-      if (window) clearTimeout(timeoutId)
+      if (typeof window !== 'undefined' && typeof window.clearTimeout === 'function') clearTimeout(timeoutId)
     }
   }
 
