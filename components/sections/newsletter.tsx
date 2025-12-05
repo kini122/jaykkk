@@ -27,6 +27,11 @@ export function Newsletter() {
   return (
     <section id="newsletter" className="section bg-white" style={{ padding: '68px 0 11px' }}>
       <div className="mx-auto max-w-4xl px-6">
+        <p className="font-serif italic text-lg md:text-xl tracking-tight leading-relaxed md:leading-relaxed text-center mb-8 md:mb-12" style={{ padding: '0 0 24px' }}>
+          "Each new day, each new experience inspires me – the world around me, nature, people, events, places… all these are my sources of inspiration."
+          <br />
+          <span className="font-normal not-italic text-base md:text-lg mt-2 block">— Jay Karun</span>
+        </p>
         <h2 className="font-serif text-3xl md:text-4xl tracking-tight leading-relaxed md:leading-relaxed text-center" style={{ padding: '4px 0 17px' }}>Sign up to my newsletter for exclusive updates, <br />offers and invitations.</h2>
 
         {!submitted ? (
